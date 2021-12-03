@@ -1,0 +1,10 @@
+#container {
+  margin: auto;
+  width: 100vw;
+  top: 0;
+}
+
+#app {
+  width: 80%;
+  margin: auto;
+}
