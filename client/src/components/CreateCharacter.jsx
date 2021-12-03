@@ -34,7 +34,10 @@ export default function CreateCharacter({initCharacter}) {
           <input type="radio" value="Gladiator" name="playerClass" onMouseOver={showDescription} onMouseLeave={hideDescription}/> Gladiator
         </div>
         <br/>
-        <button onClick={() => initCharacter(name, playerClass)}>Create</button>
+        <button onClick={(e) => {
+          e.preventDefault();
+          initCharacter(name, playerClass);
+          }}>Create</button>
       </form>
       <div id="classDescription"></div>
     </div>
