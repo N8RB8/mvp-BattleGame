@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-export default function Menu({player, fight}) {
+export default function Menu({player, fight, saveGame}) {
   const [showShop, setShowShop] = useState(false);
 
   const menuStyle = {
@@ -50,8 +50,13 @@ export default function Menu({player, fight}) {
           <br/>
           <br/>
           <button onClick={() => fight(true)}>Fight</button>
+          <br/>
+          <br/>
+          <button onClick={() => saveGame(player)}>Save</button>
         </div>
       </div>
+      <br/>
+      <br/>
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function Combat({player, fight}) {
   }
 
   function handlePlayerAttacks() {
-    if (!combatEnd) {
+    if (!combatEnd && playerHealth > 0) {
       console.log('playerAttacking')
       let damage = Math.floor(Math.random() * 10 * player.stats.str);
       setMonsterHealth(monsterHealth - damage);
@@ -35,7 +35,7 @@ export default function Combat({player, fight}) {
   }
 
   function handleMonsterAttacks() {
-    if (!combatEnd) {
+    if (!combatEnd && monsterHealth > 0) {
       console.log('monster attacking');
       let damage = Math.floor(Math.random() * 10 * monster.stats.str);
       setPlayerHealth(playerHealth - damage);
@@ -99,7 +99,8 @@ export default function Combat({player, fight}) {
       {
         combatEnd && !victory ? (<div>You have been slain. <br/> <button onClick={handleDefeat}>Return to Menu</button></div>) : null
       }
-
+      <br/>
+      <br/>
     </div>
   )
 }

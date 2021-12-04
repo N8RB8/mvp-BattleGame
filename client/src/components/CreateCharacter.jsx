@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-export default function CreateCharacter({initCharacter}) {
+export default function CreateCharacter({initCharacter, saveGame, loadGame}) {
   let [name, setName] = useState('');
   let [playerClass, setPlayerClass] = useState('');
 
@@ -15,7 +15,7 @@ export default function CreateCharacter({initCharacter}) {
   }
 
   function hideDescription() {
-    document.getElementById('classDescription').innerHTML = '';
+    document.getElementById('classDescription').innerHTML = ' &nbsp;';
   }
 
   return (
@@ -39,11 +39,15 @@ export default function CreateCharacter({initCharacter}) {
           initCharacter(name, playerClass);
           }}>Create</button>
       </form>
-      <div id="classDescription"></div>
+      <div id="classDescription">{'\u00A0'}</div>
       <br/>
       <div>
         <p>Already have one?</p>
-        <button>Load</button>
+        <button onClick={e => {
+          e.preventDefault();
+          let playerId = prompt('Please paste your session ID here', '');
+          loadGame(playerId);
+        }}>Load</button>
       </div>
     </div>
   )

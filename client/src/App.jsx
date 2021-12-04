@@ -11,25 +11,35 @@ class App extends React.Component {
       gameStarted: false,
       player: null,
       monster: {},
+      session: null,
     };
   }
 
   initCharacter(name, playerClass) {
-    this.setState({player: new Character(name, playerClass), gameStarted: true});
+    let player = new Character(name, playerClass)
+    this.saveGame(player);
+    this.setState({player: player, gameStarted: true});
   }
 
-  newGame() {
-    //
+  saveGame(player) {
+    console.log('save called')
+    axios.post('/playerData', {player})
+    .then(res => this.setState({session: res.data}))
+    .catch(err => console.log);
   }
 
-  continueGame() {
-    //
+  continueGame(playerId) {
+    console.log(playerId);
+    axios.get('/playerData', {params: {_id: playerId}})
+    .then(({data}) => this.setState({player: data, gameStarted: true, session: data._id}))
+    .catch(err => console.log);
   }
 
   render() {
     return (
       <div>
-        {this.state.gameStarted ? <Main player={this.state.player}/> : <CreateCharacter initCharacter={this.initCharacter.bind(this)}/>}
+        {this.state.gameStarted ? <Main player={this.state.player} saveGame={this.saveGame.bind(this)}/> : <CreateCharacter initCharacter={this.initCharacter.bind(this)} saveGame={this.saveGame.bind(this)} loadGame={this.continueGame.bind(this)}/>}
+        {this.state.gameStarted ? <div> This is your character ID. Keep this to continue next time! <br/> {this.state.session} <br/>PLEASE NOTE: this will change each time you save.</div> : null}
       </div>
     );
   }
