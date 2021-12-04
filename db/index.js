@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb://localhost:27017/BattleGame';
+const mongoURI =
+  process.env.MONGODB_URI || 'mongodb://localhost:27017/BattleGame';
 
 const db = mongoose.connect(mongoURI, { useNewUrlParser: true });
 
