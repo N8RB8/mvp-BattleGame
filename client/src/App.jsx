@@ -1,5 +1,5 @@
 import React from 'react';
-import Character from './character.js';
+import Character from './classes/character.js';
 import CreateCharacter from './components/CreateCharacter.jsx';
 import Main from './components/Main.jsx';
 import axios from 'axios';
@@ -10,7 +10,6 @@ class App extends React.Component {
     this.state= {
       gameStarted: false,
       player: null,
-      monster: {},
       session: null,
     };
   }
@@ -19,6 +18,10 @@ class App extends React.Component {
     let player = new Character(name, playerClass)
     this.saveGame(player);
     this.setState({player: player, gameStarted: true});
+  }
+
+  updatePlayer(player) {
+    this.setState({player});
   }
 
   saveGame(player) {

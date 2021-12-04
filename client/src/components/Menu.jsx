@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import ShopModal from "./ShopModal.jsx";
 
 export default function Menu({player, fight, saveGame}) {
   const [showShop, setShowShop] = useState(false);
@@ -10,18 +11,18 @@ export default function Menu({player, fight, saveGame}) {
 
 
   function levelUp() {
+    console.log(player.stats);
     player.stats.lvl += 1;
-    player.stats.str += 1;
-    player.stats.speed += 1;
-    player.stats.maxHealth += 50;
-    player.stats.currHealth = player.stats.maxHealth;
-    player.expToLvl = Math.pow(10 * this.stats.lvl, 2);
+    player.stats.str += 2;
+    player.stats.speed += 2;
+    player.stats.maxHealth += 100;
+    player.expToLvl = Math.pow(10 * player.stats.lvl, 2);
     alert(
       `Congratulations! You just leveled up! \n You are now level ${player.stats.lvl}`
       );
   }
 
-  if (player.exp > player.expToLvl) {
+  if (player.exp >= player.expToLvl) {
     levelUp();
   }
 
@@ -45,7 +46,7 @@ export default function Menu({player, fight, saveGame}) {
           <p>{player.win}W / {player.loss}L</p>
         </div>
         <div style={menuStyle}>
-          {showShop ? <ShopModal player={player}/> : null}
+          {showShop ? <ShopModal player={player} hideShop={setShowShop}/> : null}
           <button onClick={() => setShowShop(true)}>Shop</button>
           <br/>
           <br/>

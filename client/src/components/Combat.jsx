@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import Monster from "../monster.js";
+import Monster from "../classes/monster.js";
 
 export default function Combat({player, fight}) {
   const [monster, setMonster] = useState(new Monster(player.stats.lvl));
@@ -8,6 +8,8 @@ export default function Combat({player, fight}) {
   const [combatEnd, setCombatEnd] = useState(false);
   const [victory, setVictory] = useState(false);
   const [combatLog, setCombatLog] = useState([]);
+  let calcPlayerHealth = playerHealth;
+  let calcMonsterHealth = monsterHealth;
   let roundLog = [];
 
   useEffect(() => {
@@ -26,20 +28,22 @@ export default function Combat({player, fight}) {
   }
 
   function handlePlayerAttacks() {
-    if (!combatEnd && playerHealth > 0) {
-      console.log('playerAttacking')
+    if (!combatEnd && calcPlayerHealth > 0) {
       let damage = Math.floor(Math.random() * 10 * player.stats.str);
-      setMonsterHealth(monsterHealth - damage);
+      setMonsterHealth(calcMonsterHealth - damage);
+      calcMonsterHealth -= damage;
       roundLog.push(`You hit your opponent for ${damage} damage.`);
+      updateCombatLog();
     }
   }
 
   function handleMonsterAttacks() {
-    if (!combatEnd && monsterHealth > 0) {
-      console.log('monster attacking');
+    if (!combatEnd & calcMonsterHealth > 0) {
       let damage = Math.floor(Math.random() * 10 * monster.stats.str);
-      setPlayerHealth(playerHealth - damage);
+      setPlayerHealth(calcPlayerHealth - damage);
+      calcPlayerHealth -= damage;
       roundLog.push(`Your opponent hit you for ${damage} damage.`);
+      updateCombatLog();
     }
   }
 
@@ -47,15 +51,24 @@ export default function Combat({player, fight}) {
     if (player.stats.speed > monster.stats.speed || player.stats.speed === monster.stats.speed) {
       handlePlayerAttacks();
       handleMonsterAttacks();
-      updateCombatLog();
     } else {
       handleMonsterAttacks();
       handlePlayerAttacks();
-      updateCombatLog();
     }
   }
 
-  function handlePlayerItem() {}
+  function handlePlayerItem() {
+    if (player.inventory.potion && !combatEnd) {
+      player.inventory.potion -= 1;
+      calcPlayerHealth = player.stats.maxHealth;
+      setPlayerHealth(player.stats.maxHealth);
+      roundLog.push('You used a potion. You feel healthy.')
+      updateCombatLog();
+      handleMonsterAttacks();
+    } else {
+      alert('You don\'t have a usable item!');
+    }
+  }
 
   function handleVictory() {
     player.inventory.gold += monster.goldReward;

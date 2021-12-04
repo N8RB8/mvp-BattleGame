@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import Combat from "./Combat.jsx";
-import ShopModal from "./ShopModal.jsx";
 import Menu from "./Menu.jsx";
 
 export default function Main({player, saveGame}) {
