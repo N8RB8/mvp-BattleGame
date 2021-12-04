@@ -20,7 +20,7 @@ export default function CreateCharacter({initCharacter}) {
 
   return (
     <div>
-      Create your character:
+      <h2>Create your character:</h2>
       <form>
         <label>Name:</label>
         <br/>
@@ -40,6 +40,11 @@ export default function CreateCharacter({initCharacter}) {
           }}>Create</button>
       </form>
       <div id="classDescription"></div>
+      <br/>
+      <div>
+        <p>Already have one?</p>
+        <button>Load</button>
+      </div>
     </div>
   )
 };

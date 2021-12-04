@@ -6,5 +6,18 @@
 
 #app {
   width: 80%;
+  height: auto;
   margin: auto;
+  background-color: bisque;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+#combatLog {
+  height: 150px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  justify-self: center;
+  align-content: center;
 }

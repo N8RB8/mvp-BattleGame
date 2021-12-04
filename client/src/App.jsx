@@ -9,15 +9,21 @@ class App extends React.Component {
     super(props);
     this.state= {
       gameStarted: false,
-      player: {},
+      player: null,
       monster: {},
     };
   }
 
   initCharacter(name, playerClass) {
-    console.log('name:', name);
-    console.log('player class:', playerClass);
     this.setState({player: new Character(name, playerClass), gameStarted: true});
+  }
+
+  newGame() {
+    //
+  }
+
+  continueGame() {
+    //
   }
 
   render() {

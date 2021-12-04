@@ -7,43 +7,51 @@ export default function Combat({player, fight}) {
   const [playerHealth, setPlayerHealth] = useState(player.stats.maxHealth);
   const [combatEnd, setCombatEnd] = useState(false);
   const [victory, setVictory] = useState(false);
-
+  const [combatLog, setCombatLog] = useState([]);
+  let roundLog = [];
 
   useEffect(() => {
-    if (playerHealth <= 0) {
-      document.getElementById('combatLog').innerHTML += 'Defeat!';
-      setCombatEnd(true);
-    } else if (monsterHealth <= 0) {
-      document.getElementById('combatLog').innerHTML += 'Victory!';
+    if (monsterHealth <= 0) {
+      setCombatLog([...combatLog, 'Victory!']);
       setVictory(true);
+      setCombatEnd(true);
+    } else if (playerHealth <= 0) {
+      setCombatLog([...combatLog, 'Defeat!']);
       setCombatEnd(true);
     }
   }, [monsterHealth, playerHealth])
 
+  function updateCombatLog() {
+    setCombatLog([...combatLog, ...roundLog]);
+  }
+
   function handlePlayerAttacks() {
     if (!combatEnd) {
+      console.log('playerAttacking')
       let damage = Math.floor(Math.random() * 10 * player.stats.str);
       setMonsterHealth(monsterHealth - damage);
-      document.getElementById('combatLog').innerHTML += `You hit your opponent for ${damage} damage. \n`;
+      roundLog.push(`You hit your opponent for ${damage} damage.`);
     }
   }
 
   function handleMonsterAttacks() {
     if (!combatEnd) {
+      console.log('monster attacking');
       let damage = Math.floor(Math.random() * 10 * monster.stats.str);
       setPlayerHealth(playerHealth - damage);
-      document.getElementById('combatLog').innerHTML += `Your opponent hit you for ${damage} damage. \n`;
-
+      roundLog.push(`Your opponent hit you for ${damage} damage.`);
     }
   }
 
   function attack() {
-    if (player.stats.speed > monster.stats.speed) {
+    if (player.stats.speed > monster.stats.speed || player.stats.speed === monster.stats.speed) {
       handlePlayerAttacks();
       handleMonsterAttacks();
+      updateCombatLog();
     } else {
       handleMonsterAttacks();
       handlePlayerAttacks();
+      updateCombatLog();
     }
   }
 
@@ -81,7 +89,9 @@ export default function Combat({player, fight}) {
       <br/>
       <br/>
       Action Log:
-      <div id="combatLog"></div>
+      <div id="combatLog">
+        {combatLog.length ? combatLog.map(entry => (<p>{entry}</p>)) : null}
+      </div>
       <br/>
       {
         combatEnd && victory ? (<div>You have gained {monster.expReward}exp and {monster.goldReward} gold. <br/> <button onClick={handleVictory}>Return to Menu</button></div>) : null

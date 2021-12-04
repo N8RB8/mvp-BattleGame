@@ -12,6 +12,7 @@ class Character {
     };
     this.win = 0;
     this.loss = 0;
+    this.expToLvl = Math.pow(10 * this.stats.lvl, 2);
     if (playerClass === 'Barbarian') {
       this.stats.str = 5;
       this.stats.speed = 3;
@@ -22,17 +23,6 @@ class Character {
       this.stats.str = 4;
       this.stats.speed = 4;
     }
-  }
-
-  levelUp() {
-    this.stats.lvl += 1;
-    this.stats.str += 1;
-    this.stats.speed += 1;
-    this.stats.maxHealth += 50;
-    this.stats.currHealth = this.stats.maxHealth;
-    alert(
-      `Congratulations! You just leveled up! \n You are now level ${this.stats.lvl}`
-    );
   }
 }
 

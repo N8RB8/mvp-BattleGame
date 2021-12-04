@@ -8,6 +8,23 @@ export default function Menu({player, fight}) {
     padding: 2.
   }
 
+
+  function levelUp() {
+    player.stats.lvl += 1;
+    player.stats.str += 1;
+    player.stats.speed += 1;
+    player.stats.maxHealth += 50;
+    player.stats.currHealth = player.stats.maxHealth;
+    player.expToLvl = Math.pow(10 * this.stats.lvl, 2);
+    alert(
+      `Congratulations! You just leveled up! \n You are now level ${player.stats.lvl}`
+      );
+  }
+
+  if (player.exp > player.expToLvl) {
+    levelUp();
+  }
+
   return (
     <div>
       <h3>{player.name}, the {player.playerClass}</h3>
@@ -29,10 +46,10 @@ export default function Menu({player, fight}) {
         </div>
         <div style={menuStyle}>
           {showShop ? <ShopModal player={player}/> : null}
-          <button>Shop</button>
+          <button onClick={() => setShowShop(true)}>Shop</button>
           <br/>
           <br/>
-          <button onClick={(e) => fight(true)}>Fight</button>
+          <button onClick={() => fight(true)}>Fight</button>
         </div>
       </div>
     </div>
